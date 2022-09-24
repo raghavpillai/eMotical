@@ -1,5 +1,5 @@
 from typing import Any
-from server.utils.utils import base64_to_image
+from server.utils.utils import base64_to_image, blank_image
 
 import boto3
 import os
@@ -16,7 +16,9 @@ def get_images(session_id):
     for filename in filter(lambda p: p.endswith("txt"), os.listdir(path)):
         filepath = os.path.join(path, filename)
         with open(filepath, mode="r") as f:
-            files_content += [f.read()]
+            text = f.read()
+            if text != blank_image:
+                files_content.append(text)
     for file_content in files_content:
         images += [base64_to_image(file_content)]
     return images
