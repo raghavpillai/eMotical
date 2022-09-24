@@ -37,11 +37,7 @@ class EmotionArray(object):
         file = open("testing.json")
         for i in json.load(file):
             self._construct_timestamps(i["Emotions"])
-            #print(i["Timestamp"])
 
     def __init__(self) -> None:
         self.array = []
         self._construct_array()
-
-
-e = EmotionArray()
