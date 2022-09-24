@@ -1,5 +1,5 @@
 from typing import Any
-from app.utils.utils import ms_to_timestamp
+from server.utils.utils import ms_to_timestamp
 
 import boto3
 import cv2

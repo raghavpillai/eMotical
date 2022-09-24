@@ -2,7 +2,7 @@ from typing import List, Dict
 import json
 
 
-class Timestamp(object):
+class EmotionPoint(object):
     calm: float = None
     surprised: float = None
     fear: float = None
@@ -12,8 +12,11 @@ class Timestamp(object):
     confused: float = None
     disgusted: float = None
 
-    def __init__(self, emotion_dict):
-        for i in emotion_dict:
+    def return_score(self) -> int:
+        return 50
+
+    def __init__(self, emotion_dict) -> None:
+        for i in emotion_dict["Emotions"]:
             emotion_type = i["Type"].lower()
             confidence = i["Confidence"]
             if emotion_type == "calm":
@@ -37,23 +40,17 @@ class Timestamp(object):
 class EmotionArray(object):
     array: List = []
 
-    def construct_timestamp(self, json_timestamp):
-        timestamp = Timestamp(json_timestamp)
+    def construct_timestamp(self, json_timestamp) -> None:
+        timestamp = EmotionPoint(json_timestamp)
         self.array.append(timestamp)
 
-    def _construct_timestamps(self, json_obj):
-        timestamp = Timestamp(json_obj)
+    def _construct_timestamps(self, emotion_arr: Dict) -> None:
+        timestamp = EmotionPoint(emotion_arr)
         self.array.append(timestamp)
 
-    def _construct_array(self):
-        file = open("testing.json")
-        for i in json.load(file):
-            self._construct_timestamps(i["Emotions"])
-            # print(i["Timestamp"])
+    def _construct_array(self, emotion_arr: Dict) -> None:
+        self._construct_timestamps(emotion_arr["Emotions"])
 
-    def __init__(self) -> None:
+    def __init__(self, emotion_arr: Dict) -> None:
         self.array = []
-        self._construct_array()
-
-
-e = EmotionArray()
+        self._construct_array(emotion_arr)
