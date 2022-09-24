@@ -9,11 +9,11 @@ async def combine_videos(session_id: str):
     pass
 
 
-async def analyze_video(file: str) -> Any:
+async def analyze_final_video(session_id: str) -> Any:
     rekognition = boto3.client("rekognition")
     faceLabels = []
     cap = cv2.VideoCapture(
-        f"https://carmotion-videos.s3.amazonaws.com/{file}.mov"
+        f"https://carmotion-videos.s3.amazonaws.com/sessions/${session_id}/final_video.mp4"
     )
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     save_interval = 1
