@@ -62,16 +62,19 @@
   border: solid;
   width: 100%;
   height: 50%;
+  margin-top: 1em;
 }
 
 .media {
   font-size: 2em;
+  margin-top: .5em;
 }
 
 .author-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: .5em;
   width: 100%;
   height: 5%;
   gap: 1.5em;
