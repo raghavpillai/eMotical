@@ -11,3 +11,6 @@ def create_app() -> FastAPI:
     app.add_exception_handler(CarmotionException, carmotion_exception_handler)
     app.include_router(api_router, prefix="/v1")
     return app
+    
+if __name__ == '__main__':
+    app = create_app()

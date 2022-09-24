@@ -1,5 +1,5 @@
 from typing import Any
-from app.utils.utils import base64_to_image
+from server.utils.utils import base64_to_image
 
 import boto3
 

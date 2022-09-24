@@ -1,6 +1,6 @@
 from typing import Any
-from app.utils.video.video import analyze_video
-from app.utils.image.image import analyze_image
+from server.utils.video.video import analyze_video
+from server.utils.image.image import analyze_image
 
 from fastapi import APIRouter
 
