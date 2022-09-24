@@ -5,8 +5,16 @@ name = "pypi"
 
 [packages]
 flask = "*"
+fastapi = "*"
+boto3 = "*"
+mangum = "*"
+opencv-python = "*"
 
 [dev-packages]
+black = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true
