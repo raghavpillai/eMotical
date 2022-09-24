@@ -37,6 +37,10 @@ class Timestamp(object):
 class EmotionArray(object):
     array: List = []
 
+    def construct_timestamp(self, json_timestamp):
+        timestamp = Timestamp(json_timestamp)
+        self.array.append(timestamp)
+
     def _construct_timestamps(self, json_obj):
         timestamp = Timestamp(json_obj)
         self.array.append(timestamp)
