@@ -98,3 +98,14 @@
   color: black;
   background-color: gray;
 }
+
+.chat-wrapper {
+  margin: 1em;
+}
+
+.chat-bubble {
+  background-color: #fdfdfd;
+  margin-top: 1em;
+  border-radius: 10%;
+  padding: 0.5em;
+}

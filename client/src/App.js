@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Chat from './chat'
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
           </div>
 
         </div>
-        <div className="chat">Hi!</div>
+        <div className="chat">
+          <Chat/>
+        </div>
       </div>
     </div>
 
