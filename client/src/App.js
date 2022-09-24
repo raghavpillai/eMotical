@@ -17,6 +17,16 @@ const s3 = new AWS.S3();
 function App() {
   const [capturing, setCapturing] = useState(false);
 
+  useEffect(() => {
+    let video = document.getElementById('video');
+    if(video){
+      setCapturing(true);
+    }
+    else{
+      setCapturing(false);
+    }
+  })
+
   function uuidv4() {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -39,7 +49,7 @@ function App() {
 
 				let video = document.getElementById('video');
         var canvas = document.createElement('canvas');
-				if (video) {
+				if (capturing) {
           function capture(){
             
             canvas.width = video.videoWidth;
@@ -87,7 +97,7 @@ function App() {
       <div className="topbar">
         <div className ="label">CarMotion</div>
         <div className="avatar-wrapper">
-          <a className="avatar">avatar</a>
+          <a className="avatar"></a>
         </div>
 
       </div>
@@ -99,6 +109,7 @@ function App() {
                 iframeClassName="player"
                 opts={opts}
                 onPlay={start}
+                onPause={stop}
                 onEnd={stop} 
               />
 
