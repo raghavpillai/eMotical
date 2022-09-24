@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import Landing from './Landing'
+import Graph from './Graph'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
+    
   </React.StrictMode>
 );
 
