@@ -5,6 +5,10 @@ import boto3
 import cv2
 
 
+async def combine_videos(session_id: str):
+    pass
+
+
 async def analyze_video(file: str) -> Any:
     rekognition = boto3.client("rekognition")
     faceLabels = []
@@ -45,6 +49,8 @@ async def analyze_video(file: str) -> Any:
                                 ),
                             }
                         )
+
+                    frame_count = 0
         else:
             break
 

@@ -1,17 +1,26 @@
 from typing import Any
+from app.utils.utils import base64_to_image
 
 import boto3
 
 
-async def analyze_image(name: str) -> Any:
+async def analyze_image(uuid: str) -> Any:
     rekognition = boto3.client("rekognition")
+    faceLabels = []
     response = rekognition.detect_faces(
         Image={
-            "S3Object": {
-                "Bucket": "carmotion-video-images",
-                "Name": name,
-            }
+            "Bytes": base64_to_image(uuid),
         },
-        Attributes=["EMOTIONS" | "ALL"],
+        Attributes=[
+            "ALL",
+        ],
     )
-    return response
+    for face in response["FaceDetails"]:
+        faceLabels.append(
+            {
+                "BoundingBox": face["BoundingBox"],
+                "Emotions": face["Emotions"],
+                "Confidence": face["Confidence"],
+            }
+        )
+    return faceLabels

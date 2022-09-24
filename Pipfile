@@ -9,6 +9,7 @@ fastapi = "*"
 boto3 = "*"
 mangum = "*"
 opencv-python = "*"
+pillow = "*"
 
 [dev-packages]
 black = "*"
