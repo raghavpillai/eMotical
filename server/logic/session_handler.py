@@ -1,3 +1,4 @@
+from fastapi import WebSocket
 from .session import Session
 from .recommendations import Recommendations
 
@@ -5,9 +6,13 @@ class SessionHandler:
     """
     Global session handler class
     """
+
     # Global session objects
     current_session: Session = None
     recommendations: Recommendations = None
+
+    # Websocket local to session handler
+    websocket_obj: WebSocket = None
     
     def create_session(self, session_id: str) -> None:
         """
@@ -24,7 +29,7 @@ class SessionHandler:
         @param url: str: url (without youtube link) to use as key
         @param amount: int: Amount to update weights with
         """
-        self.recommendations.adjust_weights(category, "https://www.youtube.com/watch?v="+url, amount)
+        self.recommendations.adjust_all_weights(category, "https://www.youtube.com/watch?v="+url, amount)
 
     def get_recs(self, category: str) -> None:
         """
@@ -32,6 +37,22 @@ class SessionHandler:
         @param category: str: Category to return
         """
         return self.recommendations.generate_recommendations(category)
+
+    def prompt_chat_message(self) -> str:
+        """
+        Begin prompt for chat msg
+        @return str: returns initial chat to fire back to client
+        """
+        initial_msg: str = self.current_session.start_chat()
+        return initial_msg
+
+    def process_chat_msg(self, msg:str) -> str:
+        """
+        Processes a chat when a chat is fired to the server
+        @return str: returns response string to fire back to client
+        """
+        new_msg: str = self.current_session.process_chat(msg)
+        return new_msg
 
     def __init__(self):
         """

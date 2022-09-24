@@ -8,13 +8,14 @@ from server.utils.utils import (
 )
 from server.utils.video.video import analyze_final_video
 from .emotions import EmotionPoint, EmotionArray
+from .chat_instance import ChatInstance
 
 
 class Session(object):
     """
     Session object to create for each new emotion session
     """
-
+    
     # Session files
     session_id: int = None
 
@@ -25,14 +26,9 @@ class Session(object):
     # Video URL to hold and store
     video_url: str = None
 
-    def __init__(self, id):
-        """
-        Data instantiation
-        """
-        self.session_id = id
-        self.start_time = time.time()
-        print(f"Created new session {id}")
-
+    # Chat instance local to session
+    chat_instance: ChatInstance = None
+    
     # def create_analysis(self):
     #     # Session time
     #     #
@@ -66,8 +62,32 @@ class Session(object):
         res = analyze_final_video(self.session_id)
         return res
 
-    def end_session(self):
+    def start_chat(self) -> str:
+        """
+        Starts chat session
+        @return str: initial chat to fire back to client
+        """
+        self.chat_instance = ChatInstance()
+        return self.chat_instance.initial_chat()
+    
+    def process_chat(self, msg: str) -> str:
+        """
+        Processes chat into callback given message
+        @param msg: str: message to process
+        @return str: chat to fire back to client
+        """
+        return self.chat_instance.chat_callback(msg)
+
+    def end_session(self) -> None:
         """
         Ends the session and time
         """
         self.end_time = time.time()
+
+    def __init__(self, id) -> None:
+        """
+        Data instantiation
+        """
+        self.session_id = id
+        self.start_time = time.time()
+        print(f"Created new session {id}")
