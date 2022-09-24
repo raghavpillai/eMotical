@@ -7,13 +7,22 @@ const conversationArray = [
     {name: "User", message: "I want something more sporty"}
 ];
 
+const getSide = (obj) => {
+    if(obj === 'Sender'){
+        return 'message-wrapper float-left'
+    }
+    return 'message-wrapper float-right'
+}
+
 function Chat(){
     return (
         <div className="chat-wrapper">
             {conversationArray.map((convo) => (
-                <div className="chat-bubble">
-                    <h3>{convo.name}</h3>
-                    <p>{convo.message}</p>
+                <div className={getSide(convo.name)}>
+                    <div className='chat-bubble'>
+                        <h3>{convo.name}</h3>
+                        <p>{convo.message}</p>
+                    </div>
                 </div>
             ))}
         </div>

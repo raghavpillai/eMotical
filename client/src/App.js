@@ -2,7 +2,10 @@ import logo from './logo.svg';
 import './App.css';
 import Chat from './chat'
 import { useState, useRef, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import YouTube from 'react-youtube';
+
+import bob from './bob.jfif';
 
 const AWS = require("aws-sdk")
 
@@ -15,6 +18,10 @@ AWS.config.update({
 const s3 = new AWS.S3();
 
 function App() {
+
+  let params = useParams();
+  console.log(params)
+
   const [capturing, setCapturing] = useState(false);
 
   useEffect(() => {
@@ -48,18 +55,21 @@ function App() {
 
 
 				let video = document.getElementById('video');
-        var canvas = document.createElement('canvas');
-				if (capturing) {
+        
+				if (video) {
           function capture(){
-            
+            var canvas = document.createElement('canvas');
+            let video = document.getElementById('video');
+
+            if(!video){
+              return;
+            }
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
             let link = canvas.toDataURL('image/png');
 
             console.log(link)
-  
             const id = uuidv4()
             if(link){
               (async () =>{
@@ -94,10 +104,14 @@ function App() {
 
   return (
     <div className="container">
+      <link rel="preconnect" href="https://fonts.googleapis.com"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&family=Roboto:wght@500&display=swap" rel="stylesheet"/>
       <div className="topbar">
-        <div className ="label">CarMotion</div>
+        <div className ="label">eMotical</div>
         <div className="avatar-wrapper">
-          <a className="avatar"></a>
+          <img className="avatar" src={bob}></img>
+          <p className='label-small'>Hi Hamza!</p>
         </div>
 
       </div>
@@ -105,7 +119,7 @@ function App() {
         <div className="screen-wrapper">
           <div className="screen">
               <YouTube
-                videoId="2g811Eo7K8U"
+                videoId={params['id']}
                 iframeClassName="player"
                 opts={opts}
                 onPlay={start}
@@ -113,14 +127,17 @@ function App() {
                 onEnd={stop} 
               />
 
+            {capturing && 
               <video
                 muted
                 autoPlay
                 id="video">
               </video>
+            }
           </div>
 
           <div className="media">Media</div>
+          <div className='spacer'></div>
           <div className="author-wrapper">
             <div className="author"></div>
             <div className="author-label">Doug Demurro</div>
