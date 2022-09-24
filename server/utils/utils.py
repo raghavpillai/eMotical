@@ -2,9 +2,11 @@ import base64
 import datetime
 from PIL import Image
 from io import BytesIO
+from moviepy.editor import *
 import boto3
 import os
 import moviepy
+import glob
 
 
 def ms_to_timestamp(ms) -> str:
@@ -24,23 +26,15 @@ def base64_to_image(base64_string: str):
     return sbuf.read()
 
 
-def download_session_videos(session_id):
+def download_session_images(session_id):
     s3_resource = boto3.resource("s3")
     my_bucket = s3_resource.Bucket("carmotion-videos")
     objects = my_bucket.objects.filter(Prefix=f"{session_id}/")
     for obj in objects:
         path, filename = os.path.split(obj.key)
         my_bucket.download_file(
-            obj.key, f"sessions/${session_id}/videos/{filename}"
+            obj.key, f"sessions/${session_id}/images/{filename}"
         )
-
-
-def get_video_paths(session_id):
-    video_paths = []
-    for file in os.listdir(f"sessions/${session_id}"):
-        if file.endswith(".mp4"):
-            video_paths.append(f"sessions/${session_id}/videos/{file}")
-    return video_paths
 
 
 def concatenate(video_clip_paths, session_id):
