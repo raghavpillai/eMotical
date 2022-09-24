@@ -8,6 +8,7 @@ flask = "*"
 fastapi = "*"
 boto3 = "*"
 mangum = "*"
+opencv-python = "*"
 
 [dev-packages]
 black = "*"
