@@ -28,11 +28,12 @@ class Session(object):
 
     #def create_analysis(self):
         # Session time
-        # 
+        #
         # Total score (-100 to 100)
         # Positive and negative score breakdowns with confidence levels
         # Individual score breakdowns
         # Graph with data points
+        pass
 
     def process_image(self, image_id: str) -> int:
         """
@@ -54,7 +55,7 @@ class Session(object):
 
         paths = get_video_paths(self.session_id)
         concatenate(paths, self.session_id)
-        
+
         res = analyze_final_video(self.session_id)
         return res
 
