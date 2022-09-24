@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from server.logic.session_handler import SessionHandler
 
 router = APIRouter()
-s_handler = SessionHandler()
+s_handler: SessionHandler = SessionHandler()
 
 @router.get("/create/{session_id}")
 async def create_session(*, session_id: str) -> Any:
