@@ -4,12 +4,12 @@ from app.utils.utils import base64_to_image
 import boto3
 
 
-async def analyze_image(uuid: str) -> Any:
+async def analyze_image(base64_str: str) -> Any:
     rekognition = boto3.client("rekognition")
     faceLabels = []
     response = rekognition.detect_faces(
         Image={
-            "Bytes": base64_to_image(uuid),
+            "Bytes": base64_to_image(base64_str),
         },
         Attributes=[
             "ALL",

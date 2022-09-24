@@ -10,6 +10,7 @@ boto3 = "*"
 mangum = "*"
 opencv-python = "*"
 pillow = "*"
+moviepy = "*"
 
 [dev-packages]
 black = "*"
