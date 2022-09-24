@@ -20,11 +20,18 @@ class Session(object):
     end_time: int = None
 
     video_url: str = None
+    
+
+    def create_analysis(self):
+        # Session time
+        # 
+        # Total score (-100 to 100)
+        # Positive and negative score breakdowns with confidence levels
+        # Individual score breakdowns
+        # Graph with data points
 
     def process_image(self, image_id: str) -> int:
         res = analyze_image(image_id)
-        # print(res)
-        # print(type(res))
         point = EmotionPoint(res)
         score = point.return_score()
         return score

@@ -13,7 +13,13 @@ class EmotionPoint(object):
     disgusted: float = None
 
     def return_score(self) -> int:
-        return 50
+        positive = (self.calm + self.happy)/2
+        negative = (self.fear + self.sad + self.angry + self.confused + self.disgusted)/5
+        score = (positive - negative)
+        print(self.calm)
+        print(self.happy)
+        print(score)
+        return score
 
     def __init__(self, emotion_dict) -> None:
         for i in emotion_dict["Emotions"]:
