@@ -2,9 +2,9 @@ import base64
 import datetime
 from PIL import Image
 from io import BytesIO
-from moviepy import concatenate_videoclips, VideoFileClip
 import boto3
 import os
+import moviepy
 
 
 def ms_to_timestamp(ms) -> str:
@@ -44,11 +44,11 @@ def get_video_paths(session_id):
 
 
 def concatenate(video_clip_paths, session_id):
-    clips = [VideoFileClip(c) for c in video_clip_paths]
+    clips = [moviepy.VideoFileClip(c) for c in video_clip_paths]
     min_height = min([c.h for c in clips])
     min_width = min([c.w for c in clips])
     clips = [c.resize(newsize=(min_width, min_height)) for c in clips]
-    final_clip = concatenate_videoclips(clips)
+    final_clip = moviepy.concatenate.concatenate_videoclips(clips)
     final_clip.write_videofile(f"sessions/${session_id}/final_video.mp4")
     final_clip.close()
 
