@@ -41,7 +41,6 @@ async def analyze_final_video(session_id: str) -> Any:
                     for face in response["FaceDetails"]:
                         faceLabels.append(
                             {
-                                "BoundingBox": face["BoundingBox"],
                                 "Emotions": face["Emotions"],
                                 "Confidence": face["Confidence"],
                                 "Timestamp": ms_to_timestamp(

@@ -1,10 +1,16 @@
 import time
 from typing import IO
 from server.utils.image.image import analyze_image
+from server.utils.utils import (
+    concatenate,
+    download_session_videos,
+    get_video_paths,
+)
 
-from server.utils.video.video import analyze_video
+from server.utils.video.video import analyze_final_video
 
 from .emotions import EmotionPoint, EmotionArray
+
 
 class Session(object):
     session_id: int = None
@@ -17,16 +23,20 @@ class Session(object):
 
     def process_image(self, image_id: str) -> int:
         res = analyze_image(image_id)
-        #print(res)
-        #print(type(res))
+        # print(res)
+        # print(type(res))
         point = EmotionPoint(res)
         score = point.return_score()
         return score
 
-    def process_video(self, video_id: str) -> str:
-        res = analyze_video(video_id)
+    def process_video(self) -> str:
+        download_session_videos(self.session_id)
+
+        paths = get_video_paths(self.session_id)
+        concatenate(paths, self.session_id)
+        
+        res = analyze_final_video(self.session_id)
         return res
-            
 
     def end_session(self):
         end_time = time.time()
