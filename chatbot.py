@@ -9,12 +9,10 @@ from textblob import TextBlob
 import time
 time.clock = time.time
 from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
 
-# Create a new chat bot named Charlie
 chatbot = ChatBot("Bot")
-input_text=input()
-feedback_polarity = TextBlob(input_text).sentiment.polarity
+
 trainer = ListTrainer(chatbot)
 def response_feedback(input_text):
     """
@@ -24,16 +22,27 @@ def response_feedback(input_text):
         response (str): A response to the feedback.
     """
     feedback_polarity = TextBlob(input_text).sentiment.polarity
-    if feedback_polarity>0:
-         return "I'm glad you're feeling well!"
-    else:
-         return "Sorry you feel that way!"
-
+    return ''.join("I'm glad you're doing well!" 
+           if feedback_polarity>0 
+           else "Sorry you feel that way!")
+        
+input_text=input("Hello, how can I help you? ")
+response_feedback=response_feedback(input_text)+" Why do you feel that way?"
+feedback_polarity = TextBlob(input_text).sentiment.polarity
 trainer.train([
-    "Hi, can I help you?",
     input_text,
-    response_feedback(input_text)
+    response_feedback,
+    
 ])
-
+response = chatbot.get_response(input_text)
+input_text=input(response)
+trainer.train([
+    input_text,
+    "Thank you, have a good day.",
+    
+])
 response = chatbot.get_response(input_text)
 print(response)
+
+
+
