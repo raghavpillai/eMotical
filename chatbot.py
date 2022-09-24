@@ -4,16 +4,26 @@ Created on Fri Sep 23 22:01:16 2022
 
 @author: bcohn
 """
+"""
+Before running, run the following commands in the termina;:
+pip install textblod
+pip install git+https://github.com/PrithivirajDamodaran/Parrot.git
+pip install chatterbot
+"""
 
 from textblob import TextBlob
 import time
+from random import choice
 time.clock = time.time
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
+from parrot import Parrot
+import torch
+import warnings
+warnings.filterwarnings("ignore")
 
-chatbot = ChatBot("Bot")
+parrot = Parrot(model_tag="prithivida/parrot_paraphraser_on_T5", use_gpu=False)
 
-trainer = ListTrainer(chatbot)
 def response_feedback(input_text):
     """
     args:
@@ -21,28 +31,15 @@ def response_feedback(input_text):
     returns:
         response (str): A response to the feedback.
     """
-    feedback_polarity = TextBlob(input_text).sentiment.polarity
-    return ''.join("I'm glad you're doing well!" 
-           if feedback_polarity>0 
-           else "Sorry you feel that way!")
-        
-input_text=input("Hello, how can I help you? ")
-response_feedback=response_feedback(input_text)+" Why do you feel that way?"
+    
+    if feedback_polarity<0:
+        return choice(parrot.augment("I'm sorry you feel that way"))[0].capitalize()+" What would you like to see? "
+    elif feedback_polarity>0:
+        return choice(parrot.augment("I'm glad you feel that way"))[0].capitalize()+" What makes you feel this way?"
+input_text=input("Hello, what do you think about this product?: ")
 feedback_polarity = TextBlob(input_text).sentiment.polarity
-trainer.train([
-    input_text,
-    response_feedback,
-    
-])
-response = chatbot.get_response(input_text)
-input_text=input(response)
-trainer.train([
-    input_text,
-    "Thank you, have a good day.",
-    
-])
-response = chatbot.get_response(input_text)
-print(response)
-
-
-
+while feedback_polarity==0:
+    input_text=input("Please be more specific: ")
+    feedback_polarity = TextBlob(input_text).sentiment.polarity
+input_text=input(response_feedback(input_text)+"")
+print(choice(parrot.augment("Thank you have a good day!"))[0].capitalize())
