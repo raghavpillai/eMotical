@@ -12,6 +12,10 @@ async def analyze_image(name: str) -> Any:
                 "Name": name,
             }
         },
-        Attributes=["EMOTIONS" | "ALL"],
+        Attributes=["ALL"],
     )
-    return response
+    return {
+        "BoundingBox": response["BoundingBox"],
+        "Emotions": response["Emotions"],
+        "Confidence": response["Confidence"],
+    }
