@@ -32,7 +32,23 @@ class Recommendations:
         "C4P6SJ6PCx8": ["volkswagen", "europen", "german", "performance", "hatchback"],
     }
     _videos_fashion: Dict = {}
-    _videos_food: Dict = {}
+    _videos_food: Dict = {
+        "https://www.youtube.com/watch?v=mxR3aGGBXt0": ["pizza", "european", "italian", "cheese", "vegetarian", "non-vegetarian", "meal"],
+        "https://www.youtube.com/watch?v=G9Mj9BO-r1c": ["burger", "american", "meat", "cheese", "lettuce", "non-vegetarian", "meal"],
+        "https://www.youtube.com/watch?v=S4T0VVNm07o": ["doughnut", "american", "sugar", "dough", "desert"],
+        "https://www.youtube.com/watch?v=_eQ2Dry2R_8": ["taco", "latin american", "cheese", "vegetarian", "non-vegetarian", "meal"],
+        "https://www.youtube.com/watch?v=L6IYy95ODDU": ["chips", "american", "potatoes", "salt", "baked", "snack"],
+        "https://www.youtube.com/watch?v=nVfE0G19KaI": ["fried chicken", "american", "chicken", "salt", "non-vegetarian", "meal"],
+        "https://www.youtube.com/watch?v=U4K7X6YboQM": ["french fries", "european", "potatoes", "salt", "fried", "snack"],
+        "https://www.youtube.com/watch?v=VqANgtxKLbM": ["coffee", "worldwide", "sugar", "coffee beans", "milk", "beverage"],
+        "https://www.youtube.com/watch?v=2H0tglcIKsM": ["chocolate", "worldwide", "cacao beans", "sugar", "desert"],
+        "https://www.youtube.com/watch?v=5J43R-DDmNc": ["pasta", "european", "italian", "wheat", "vegetarian", "non-vegetarian", "meal"],
+        "https://www.youtube.com/watch?v=CyOiXph_ahM": ["biryani", "asian", "india", "rice", "vegetarian", "non-vegetarian", "meal"],
+        "https://www.youtube.com/watch?v=1qlrRmRTbVY": ["ice cream", "worldwide", "sugar", "milk", "flavoring", "desert"],
+        "https://www.youtube.com/watch?v=WZpK-M7wKVk": ["popcorn", "worldwide", "corn kernels", "butter", "snack"],
+        "https://www.youtube.com/watch?v=zMSrEBhQcUg": ["cake", "worldwide", "dough", "sugar", "milk", "desert"],
+        "https://www.youtube.com/watch?v=GGxRzOkJtVc": ["sushi", "asian", "japanese", "rice", "seafood", "vegetables", "non-vegetarian", "meal"]
+    }
 
     # Tag index holder
     _tags_cars: Dict = {}

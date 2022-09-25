@@ -177,6 +177,7 @@
 
 .float-left {
   flex-direction: row;
+  background-color: #0281ff;
 }
 
 .float-right {
@@ -317,6 +318,11 @@
 
 .status {
   font-size: 1em;
+  width: 10em;
+  height: 10em;
+}
+
+.graph {
   width: 10em;
   height: 10em;
 }

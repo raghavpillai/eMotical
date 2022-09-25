@@ -149,7 +149,7 @@ function App() {
           <div className="author-wrapper">
             <div className="author"></div>
             <div className="author-label">Video {params['item']}</div>
-            <a className='submit' href={`/report/${session}`}>Submit</a>
+            <a className='submit' href={`/report/${session}`}></a>
           </div>
 
         </div>
