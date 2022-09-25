@@ -8,7 +8,7 @@ class SessionHandler:
     """
     Global session handler class
     """
-
+    
     # Global session objects
     current_session: Session = None
     recommendations: Recommendations = None
