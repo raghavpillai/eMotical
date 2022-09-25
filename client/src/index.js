@@ -14,7 +14,7 @@ root.render(
       <Routes>
         <Route path="/">
           <Route index element={<Landing />} />
-          <Route path="/view/:id" element={<App />}/> 
+          <Route path="/view/:id/:item/:type" element={<App />}/> 
         </Route>
       </Routes>
     </BrowserRouter>

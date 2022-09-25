@@ -4,6 +4,7 @@ import Chat from './chat'
 import { useState, useRef, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import YouTube from 'react-youtube';
+import home from './icons8-home-24.png'
 
 import bob from './bob.jfif';
 
@@ -108,7 +109,10 @@ function App() {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&family=Roboto:wght@500&display=swap" rel="stylesheet"/>
       <div className="topbar">
-        <div className ="label">eMotical</div>
+        <div className='logo-container'>
+            <a href="/"><img src={home}></img></a>
+            <div className="label">eMotical</div>
+          </div>
         <div className="avatar-wrapper">
           <img className="avatar" src={bob}></img>
           <p className='label-small'>Hi Hamza!</p>
@@ -136,11 +140,11 @@ function App() {
             }
           </div>
 
-          <div className="media">Media</div>
+          <div className="media">Category: {params['type']}</div>
           <div className='spacer'></div>
           <div className="author-wrapper">
             <div className="author"></div>
-            <div className="author-label">Doug Demurro</div>
+            <div className="author-label">Video {params['item']}</div>
           </div>
 
         </div>
