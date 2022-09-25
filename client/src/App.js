@@ -85,7 +85,7 @@ function App() {
 
 
 					video.srcObject = stream;
-          setInterval(capture, 500);
+          setInterval(capture, 50);
 				}
 
         
