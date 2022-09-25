@@ -11,6 +11,8 @@ function Chat(){
             return
         }
 
+        var sender;
+
         let obj = {name: 'User', message: document.getElementById("input").value};
 
         setArr(curr => [...curr, obj]);
@@ -18,6 +20,24 @@ function Chat(){
         if(arr.length >= 5){
             setArr((arr) => arr.filter((_, index) => index !== 0))
         }
+
+        if(document.getElementById("input").value === "I am not happy"){
+            sender = {name: 'Sender', message: "Why are you not happy?"}
+        }
+        else if(document.getElementById("input").value === "I am sad"){
+            sender = {name: 'Sender', message: "Why are you upset?"}
+        }
+        else if(document.getElementById("input").value === "This makes me upset"){
+            sender = {name: 'Sender', message: "What about it makes you upset"}
+        }
+        else if(document.getElementById("input").value === "This makes me happy"){
+            sender = {name: 'Sender', message: "I am glad this makes you happy"}
+        }
+
+        if(sender){
+            setArr(curr => [...curr, sender]);
+        }
+
         document.getElementById("input").value = ""
     }
     
