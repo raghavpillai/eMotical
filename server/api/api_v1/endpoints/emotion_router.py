@@ -56,7 +56,6 @@ async def process_image() -> Any:
         return res
     return False
 
-
 @router.get("/chat/{msg}/{category}/{detail}")
 async def prompt_chat_message(*, msg: str, category: str="", detail: str="") -> Any:
     msg_to_send = SessionHandler.process_chat_msg(msg, category, detail)
