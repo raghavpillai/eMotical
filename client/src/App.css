@@ -157,6 +157,7 @@
   width: 40%;
   height: auto;
   padding: 0.25em;
+  word-wrap: normal;
 }
 
 .message-wrapper {
@@ -290,7 +291,9 @@
   font-size: 1em;
   width: 30%;
   height: 20%;
-  background-color: #027FFF;
+  background-color: #0281ff;
+  color: white;
+  text-align: center;
 }
 
 .container-3 {

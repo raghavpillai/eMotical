@@ -7,7 +7,7 @@ function Chat(){
     const [arr, setArr] = useState([]);
 
     const handleSubmit = (event) =>{
-        if(event.code !== 'Enter'){
+        if(event.target===document.getElementById("input") && event.code !== 'Enter'){
             return
         }
 
@@ -43,7 +43,7 @@ function Chat(){
 
             <div className = "input-wrapper">
                 <input className="text-input" id="input" type="text" onKeyDown={handleSubmit}></input>
-                <submit className="input-submit" onClick={handleSubmit}></submit>
+                <submit className="input-submit" onClick={handleSubmit}>Send</submit>
             </div>
 
         </div>
