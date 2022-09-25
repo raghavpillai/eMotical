@@ -1,11 +1,12 @@
 import base64
+from concurrent.futures import ThreadPoolExecutor
 import datetime
+from functools import partial
 from PIL import Image
 from io import BytesIO
 from moviepy.editor import *
 import boto3
 import os
-import numpy as np
 
 
 def ms_to_timestamp(ms) -> str:
@@ -29,22 +30,30 @@ def base64_to_image(session_id: str, image_id: int, base64_string: str):
     return f"server/sessions/images/{session_id}/{str(image_id)}.png"
 
 
+def download_one_file(
+    bucket: str, client: boto3.client, output: str, s3_file: str
+):
+    client.download_file(
+        Bucket=bucket, Key=s3_file, Filename=os.path.join(output, s3_file)
+    )
+    return True
+
+
+session = boto3.Session()
+resource = session.resource("s3")
+
+
 async def download_session_images(
     session_id,
     local="server/sessions",
     bucket="carmotion-videos",
 ):
     get_last_modified = lambda obj: int(obj["LastModified"].strftime("%s"))
-    resource = boto3.resource("s3")
     paginator = resource.meta.client.get_paginator("list_objects")
+    files_to_download = []
     for result in paginator.paginate(
         Bucket=bucket, Delimiter="/", Prefix=f"{session_id}/"
     ):
-        if result.get("CommonPrefixes") is not None:
-            for subdir in result.get("CommonPrefixes"):
-                download_session_images(
-                    resource, subdir.get("Prefix"), local, bucket
-                )
         objects = result.get("Contents", [])
         files = [obj["Key"] for obj in sorted(objects, key=get_last_modified)]
         print("Downloading session images... Please wait...")
@@ -53,6 +62,14 @@ async def download_session_images(
             if not os.path.exists(os.path.dirname(dest_pathname)):
                 os.makedirs(os.path.dirname(dest_pathname))
             if not file_name.endswith("/"):
-                resource.meta.client.download_file(
-                    bucket, file_name, dest_pathname
-                )
+                files_to_download.append(file_name)
+
+    with ThreadPoolExecutor(max_workers=32) as executor:
+        func = partial(
+            download_one_file,
+            "carmotion-videos",
+            resource.meta.client,
+            f"server/sessions/images",
+        )
+        for result in executor.map(func, files_to_download):
+            print(result)
