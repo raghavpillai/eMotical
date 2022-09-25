@@ -1,3 +1,4 @@
+import json
 from typing import Any
 from fastapi import APIRouter, WebSocket
 from server.logic.session_handler import SessionHandler
@@ -53,7 +54,7 @@ async def process_image() -> Any:
     """
     if s_handler.current_session:
         res = await s_handler.end_session()
-        return res
+        return json.dump(res)
     return False
 
 @router.get("/chat/{msg}/{category}/{detail}")
