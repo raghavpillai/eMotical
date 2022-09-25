@@ -1,5 +1,5 @@
 from typing import Any
-from fastapi import APIRouter, WebSocket
+from fastapi import APIRouter
 from server.logic.session_handler import SessionHandler
 
 print("> Beginning build")
@@ -7,7 +7,7 @@ router = APIRouter()
 s_handler: SessionHandler = SessionHandler()
 
 
-@router.get("/create/{session_id}")
+@router.post("/create/{session_id}")
 async def create_session(*, session_id: str) -> Any:
     """
     Creates a session given a session ID
@@ -16,46 +16,12 @@ async def create_session(*, session_id: str) -> Any:
     return {"message": f"Created new session {session_id}"}
 
 
-@router.get("/update_entity/{category}/{url}/{amount}")
-async def update_entity(*, category: str, url: str, amount: str) -> Any:
-    """
-    Updates all weights for a category and url to a constant amount
-    """
-    if s_handler:
-        s_handler.update_entity(category, url, int(amount))
-        return {"success": True}
-    return {"success": False}
-
-
-@router.get("/get_recs/{category}")
-async def get_recs(*, category: str) -> Any:
-    """
-    Returns the top 5 recs (or random if no prev data) for a given category
-    """
-    if s_handler:
-        return s_handler.get_recs(category)
-    return {"success": False}
-
-
-@router.get("/end_session")
-async def process_image() -> Any:
+@router.get("/report")
+async def generate_report(*, draw_boxes=True) -> Any:
     """
     Given a prompt to process image, process image and return data
     """
     if s_handler.current_session:
-        res = await s_handler.end_session()
+        res = await s_handler.generate_report(draw_boxes)
         return res
     return False
-
-@router.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    """
-    Websocket to handle chatting for local session
-    """
-    SessionHandler.websocket_obj = WebSocket
-    await websocket.accept()
-    websocket.send_text(SessionHandler.prompt_chat_message())
-    while True:
-        data = await websocket.receive_text()
-        msg_to_send = SessionHandler.process_chat_msg(data)
-        await websocket.send_text(msg_to_send)

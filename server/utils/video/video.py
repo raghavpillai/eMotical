@@ -1,5 +1,4 @@
 from typing import Any
-from server.utils.utils import ms_to_timestamp
 
 import boto3
 import cv2
@@ -47,4 +46,7 @@ async def analyze_final_video(session_id: str) -> Any:
     cap.release()
     cv2.destroyAllWindows()
 
+    faceLabels[0][
+        "VideoUrl"
+    ] = f"https://carmotion-videos.s3.amazonaws.com/{session_id}.avi"
     return faceLabels

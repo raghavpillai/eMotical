@@ -4,7 +4,6 @@ import datetime
 from functools import partial
 from PIL import Image
 from io import BytesIO
-from moviepy.editor import *
 import boto3
 import os
 

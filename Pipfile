@@ -9,9 +9,6 @@ fastapi = "*"
 boto3 = "*"
 mangum = "*"
 opencv-python = "*"
-pillow = "*"
-moviepy = "*"
-nltk = "*"
 
 [dev-packages]
 black = "*"

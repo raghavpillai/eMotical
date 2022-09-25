@@ -6,6 +6,8 @@ import os
 import cv2
 from PIL import Image, ImageDraw, ImageFont
 
+s3 = boto3.client("s3")
+
 
 async def get_images(session_id):
     print("Converting all images from Base64 to PNG...")
@@ -23,7 +25,7 @@ async def get_images(session_id):
 
 
 async def draw_bounding_box(img_path: str):
-    print(f"Drawing bounding box for {img_path}")
+    print(f"Drawing bounding box for {img_path}...")
     rekognition = boto3.client("rekognition")
     cvImg = cv2.imread(img_path)
     _, im_buf_arr = cv2.imencode(".jpg", cvImg)
@@ -64,16 +66,17 @@ async def draw_bounding_box(img_path: str):
     image.save(img_path, format="PNG")
 
 
-async def draw_all_boxes(session_id):
+async def draw_all_boxes(session_id, draw_boxes=True):
     print("Drawing bounding boxes for all images...")
     images = await get_images(session_id)
-    for image in images:
-        await draw_bounding_box(image)
+    if draw_boxes:
+        for image in images:
+            await draw_bounding_box(image)
 
 
-async def make_video(session_id):
+async def make_video(session_id, draw_boxes=True):
     print("Making video from images...")
-    await draw_all_boxes(session_id)
+    await draw_all_boxes(session_id, draw_boxes)
     image_folder = f"server/sessions/images/{session_id}"
     video_name = f"{session_id}.avi"
     images = [
@@ -98,3 +101,6 @@ async def make_video(session_id):
 
     cv2.destroyAllWindows()
     video.release()
+
+    with open(os.path.join(f"server/sessions/videos/{video_name}"), "rb") as f:
+        s3.upload_fileobj(f, "carmotion-videos", video_name)
