@@ -47,15 +47,8 @@ async def process_image() -> Any:
         return res
     return False
 
-@router.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    """
-    Websocket to handle chatting for local session
-    """
-    SessionHandler.websocket_obj = WebSocket
-    await websocket.accept()
-    websocket.send_text(SessionHandler.prompt_chat_message())
-    while True:
-        data = await websocket.receive_text()
-        msg_to_send = SessionHandler.process_chat_msg(data)
-        await websocket.send_text(msg_to_send)
+
+@router.get("/chat/{msg}")
+async def get_recs(*, msg: str) -> Any:
+    msg_to_send = SessionHandler.process_chat_msg(msg)
+    return msg_to_send
