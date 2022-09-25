@@ -47,4 +47,5 @@ async def analyze_final_video(session_id: str) -> Any:
     cap.release()
     cv2.destroyAllWindows()
 
+    faceLabels.append({"VideoURL": f"https://carmotion-videos.s3.amazonaws.com/{session_id}.avi"})
     return faceLabels

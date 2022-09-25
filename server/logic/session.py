@@ -1,3 +1,4 @@
+import datetime
 import time
 from typing import List
 from server.utils.image.image import make_video
@@ -21,9 +22,6 @@ class Session(object):
     end_time: int = None
     duration: int = None
 
-    # Video URL to hold and store
-    video_url: str = None
-
     # Local session instances
     chat_instance: ChatInstance = None
     emotion_array: EmotionArray = None
@@ -35,8 +33,8 @@ class Session(object):
         """
 
         await self.process_images()
-        self.end_time = time.time()
-        self.duration = (self.end_time - self.start_time).total_seconds()
+        self.end_time = int(time.time())
+        self.duration = self.end_time - self.start_time
         global_score: int = self.emotion_array.create_global_score()
         return [self.duration, global_score, self.emotion_array]
         
@@ -65,6 +63,6 @@ class Session(object):
         Data instantiation
         """
         self.session_id = id
-        self.start_time = time.time()
+        self.start_time = int(time.time())
         self.chat_instance = ChatInstance()
         print(f"Created new session {id}")

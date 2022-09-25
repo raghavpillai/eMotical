@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Chat from './chat'
 import { useState, useRef, useEffect } from 'react'
@@ -21,9 +20,16 @@ const s3 = new AWS.S3();
 function App() {
 
   let params = useParams();
-  console.log(params)
+
+  function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
 
   const [capturing, setCapturing] = useState(false);
+  const [session, setSession] = useState(uuidv4());
+  const [res, setRes] = useState(null);
 
   useEffect(() => {
     let video = document.getElementById('video');
@@ -35,14 +41,8 @@ function App() {
     }
   })
 
-  function uuidv4() {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-  }
-  
 
-  const session = uuidv4();
+  
   
 	const start = () => {
     setCapturing(true);
@@ -85,7 +85,7 @@ function App() {
 
 
 					video.srcObject = stream;
-          setInterval(capture, 50);
+          setInterval(capture, 500);
 				}
 
         
@@ -98,7 +98,11 @@ function App() {
 		setCapturing(false);
 		let video = document.getElementById('video');
 		video.srcObject.getTracks()[0].stop();
+
+
 	};
+
+
 
   var opts;
 
@@ -145,6 +149,7 @@ function App() {
           <div className="author-wrapper">
             <div className="author"></div>
             <div className="author-label">Video {params['item']}</div>
+            <a className='submit' href={`/report/${session}`}></a>
           </div>
 
         </div>

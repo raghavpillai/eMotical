@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import Landing from './Landing'
-import Graph from './Graph'
+import Dashboard from './Dashboard'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,6 +15,7 @@ root.render(
         <Route path="/">
           <Route index element={<Landing />} />
           <Route path="/view/:id/:item/:type" element={<App />}/> 
+          <Route path="/report/:session" element={<Dashboard />}/>
         </Route>
       </Routes>
     </BrowserRouter>
