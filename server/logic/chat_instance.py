@@ -52,8 +52,7 @@ class ChatInstance(object):
             return self.response_feedback(msg)
         
         return(choice(parrot.augment("Thank you have a good day!"))[0].capitalize())
-
-
+    
     def __init__(self):
         """
         Object initialization
