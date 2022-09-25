@@ -57,20 +57,13 @@ class SessionHandler:
         """
         return self.recommendations.generate_recommendations(category)
 
-    def prompt_chat_message(self) -> str:
-        """
-        Begin prompt for chat msg
-        @return str: returns initial chat to fire back to client
-        """
-        initial_msg: str = self.current_session.start_chat()
-        return initial_msg
 
-    def process_chat_msg(self, msg:str) -> str:
+    def process_chat_msg(self, msg:str, category, detail) -> str:
         """
         Processes a chat when a chat is fired to the server
         @return str: returns response string to fire back to client
         """
-        new_msg: str = self.current_session.process_chat(msg)
+        new_msg: str = self.current_session.process_chat(msg, category, detail)
         return new_msg
 
     def __init__(self):

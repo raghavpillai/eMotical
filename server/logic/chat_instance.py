@@ -76,7 +76,7 @@ class ChatInstance(object):
         self.status = 4
         return(choice(parrot.augment("Thank you for your insights"))[0].capitalize()+".Have a great day!")
     
-    def chat_callback(self, msg: str,url,category) -> str:
+    def chat_callback(self, msg: str,category, detail) -> str:
         """
         Function called when a new chat is sent to the server
         @param msg: str: Message from client
@@ -87,16 +87,16 @@ class ChatInstance(object):
             return "Please be more specific and try again"
         
         if self.status == 0: # Initial response to feeling
-            return self.response_0(msg,url,category)
+            return self.response_0(msg,category,detail)
 
         if self.status == 1: # Response to why they felt that way
-            return self.response_1(msg,url,category)
+            return self.response_1(msg,category,detail)
 
         if self.status == 2: # Given a list of things they'd like to see in this category
-            return self.response_2(msg,url,category)
+            return self.response_2(msg,category,detail)
 
         if self.status == 3 : # Given a list of things they'd like to see in this category
-            return self.response_3(msg,url,category)
+            return self.response_3(msg,category,detail)
         
         return(choice(parrot.augment("Hey, thanks for your insights! We'll talk  again soon.")))
     
