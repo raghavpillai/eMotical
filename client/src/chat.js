@@ -18,7 +18,7 @@ function Chat(){
         
         setArr(curr => [...curr, obj]);
         
-        fetch('http://127.0.0.1:8000/v1/chat/', {
+        fetch('http://127.0.0.1:8000/v1/emotions/chat/', {
             method: 'GET',
             headers:{
                 'Accept': 'application/json',
