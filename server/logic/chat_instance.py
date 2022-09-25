@@ -34,17 +34,20 @@ class ChatInstance(object):
         feedback_polarity = TextBlob(input_text).sentiment.polarity
         if feedback_polarity < 0:
             self.status = 1
+            requests.get(f'http://127.0.0.1:8000/v1/emotions/update_entity/{category}/{url}/-15')
             return choice(parrot.augment("I'm sorry you feel that way."))[0].capitalize()+".What makes you feel this way?"
         elif feedback_polarity > 0:
             self.status = 1
+            requests.get(f'http://127.0.0.1:8000/v1/emotions/update_entity/{category}/{url}/15')
             return choice(parrot.augment("I'm glad you feel that way."))[0].capitalize()+". What makes you feel this way?"
 
-    def response_1(self,input_text,url,category) -> str:
+    def response_1(self,input_text,category,tag) -> str:
         # Asked what makes them feel this way
         # Ask what they'd they'd like to see in future products
         self.status = 2
         good_list=input_text.split(" ")
         for word in good_list:
+            requests.get(f'http://127.0.0.1:8000/v1/emotions/update_ind_entity/{category}/{word}/5')
             print(word)
         #name = "love"+".n.01"
         #paths = wn.synsets(name).hypernym_paths()
@@ -53,12 +56,13 @@ class ChatInstance(object):
         
         return "I understand. What sort of things would you to see in future products in this category? A list of things would be great!"
 
-    def response_2(self,input_text,url,category) -> str:
+    def response_2(self,input_text,category,tag) -> str:
         # Given a list of things they'd like to see in this category. 
         # Ask what they don't want to see in the next product
         self.status = 3
         bad_list=input_text.split(" ")
         for word in bad_list:
+            requests.get(f'http://127.0.0.1:8000/v1/emotions/update_ind_entity/{category}/{word}/-5')
             print(word)
         #name = "love"+".n.01"
         #paths = wn.synsets(name).hypernym_paths()
@@ -94,7 +98,7 @@ class ChatInstance(object):
         if self.status == 3 : # Given a list of things they'd like to see in this category
             return self.response_3(msg,url,category)
         
-        return(choice(parrot.augment("Thank you for your insights. Have a good day!")))
+        return(choice(parrot.augment("Hey, thanks for your insights! We'll talk  again soon.")))
     
     def __init__(self):
         """

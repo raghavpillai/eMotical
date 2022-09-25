@@ -32,14 +32,14 @@ class SessionHandler:
         self.current_session = None
         return analysis
 
-    def update_ind_entity(self, category: str, url: str, amount: int) -> None:
+    def update_ind_entity(self, category: str, tag: str, amount: int) -> None:
         """
         Updates weights based on parameters
         @param category: str: Array category to update
-        @param url: str: url (without youtube link) to use as key
+        @param tag: str: tag to use as key
         @param amount: int: Amount to update weights with
         """
-        self.recommendations.adjust_ind_weight(category, url, amount)
+        self.recommendations.adjust_ind_weight(category, tag, amount)
 
     def update_entity(self, category: str, url: str, amount: int) -> None:
         """

@@ -15,13 +15,13 @@ async def create_session(*, session_id: str) -> Any:
     s_handler.create_session(session_id)
     return {"message": f"Created new session {session_id}"}
 
-@router.get("/update_ind_entity/{category}/{url}/{amount}")
-async def update_entity(*, category: str, url: str, amount: str) -> Any:
+@router.get("/update_ind_entity/{category}/{tag}/{amount}")
+async def update_entity(*, category: str, tag: str, amount: str) -> Any:
     """
     Updates individual tag entity
     """
     if s_handler:
-        s_handler.update_ind_entity(category, url, int(amount))
+        s_handler.update_ind_entity(category, tag, int(amount))
         return {"success": True}
     return {"success": False}
 
