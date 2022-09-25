@@ -2,23 +2,26 @@ import './App.css'
 import Youtube from 'react-youtube'
 import { useNavigate } from 'react-router-dom'
 import home from './icons8-home-24.png'
-
-const videoList = [
-    {id: "fPYho_m142c"}, 
-    {id: "eMpszInH0xw"}, 
-    {id: "gCMQS3UDabo"}, 
-    {id: "YqvOHgBhnBU"}, 
-    {id: "9MRmNDDp5i8"}
-]
-
-
+import { useState, useEffect } from 'react'
 
 function Landing(){
     const navigate = useNavigate();
 
-    function openView(id){
-        window.location.href = "/view/"+ id;
-    }
+    const [videos, setVideo] = useState([])
+
+    useEffect(() =>{
+        fetch('http://127.0.0.1:8000/v1/emotions/get_recs/cars', {
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((res) => (res.json()))
+        .then((data) => setVideo(data))
+        .catch((errors) => console.log(errors))
+
+    }, [])
 
     return (
         <div className="container">
@@ -32,20 +35,22 @@ function Landing(){
                 </div>
             </div>
             
-
+            {videos[0] &&
+            
             <div className='tile-container'>
                 <p className='section-title'>Cars</p>
                 <div className='tile-videos'>
                     
-                    {videoList.map((video, idx) => (
+                    {videos.map((video, idx) => (
                         <div className='watch-tile-wrapper' key={idx}>
-                            <a className='watch-button' href={"/view/"+ video.id + "/" + idx + '/car'}>
-                                <Youtube videoId={video.id} iframeClassName="player small"/>
+                            <a className='watch-button' href={"/view/"+ video + "/" + idx + '/car'}>
+                                <Youtube videoId={video} iframeClassName="player small"/>
                             </a>
                         </div>
                     ))}
                 </div>
             </div>
+            }
         </div>
     )
 }

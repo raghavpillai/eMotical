@@ -8,7 +8,6 @@ class SessionHandler:
     """
     Global session handler class
     """
-    
     # Global session objects
     current_session: Session = None
     recommendations: Recommendations = None
@@ -27,7 +26,7 @@ class SessionHandler:
         self.current_session = Session(session_id)
 
     async def end_session(self) -> None:
-        analysis: List = self.current_session.create_analysis()
+        analysis: List = await self.current_session.create_analysis()
         print(f"Ended session {self.current_session.session_id}, duration {self.current_session.duration}s")
         self.current_session = None
         return analysis

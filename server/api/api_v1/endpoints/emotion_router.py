@@ -7,7 +7,7 @@ router = APIRouter()
 s_handler: SessionHandler = SessionHandler()
 
 
-@router.get("/create/{session_id}")
+@router.post("/create/{session_id}")
 async def create_session(*, session_id: str) -> Any:
     """
     Creates a session given a session ID
