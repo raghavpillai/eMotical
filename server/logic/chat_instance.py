@@ -8,11 +8,19 @@ from parrot import Parrot
 import warnings
 warnings.filterwarnings("ignore")
 
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+nltk.download('vader_lexicon', quiet = True)
+sentiment_analyzer = SentimentIntensityAnalyzer()
+
 parrot = Parrot(model_tag="prithivida/parrot_paraphraser_on_T5", use_gpu=False)
 
 class ChatInstance(object):
     # Quick status to see if we went past description chat
     status: int = 0
+
+    def check_sentiment(self, input_text: str):
+        return sentiment_analyzer.polarity_scores(input_text)
 
     def response_feedback(self,input_text) -> str:
         """
