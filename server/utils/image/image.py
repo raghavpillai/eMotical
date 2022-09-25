@@ -71,7 +71,15 @@ async def draw_all_boxes(session_id):
         await draw_bounding_box(image)
 
 
+async def draw_all_boxes(session_id):
+    print("\tDrawing bounding boxes for all images...")
+    images = await get_images(session_id)
+    for image in images:
+        await draw_bounding_box(image)
+
+
 async def make_video(session_id):
+    s3 = boto3.client("s3")
     print("\tMaking video from images...")
     await draw_all_boxes(session_id)
     image_folder = f"server/sessions/images/{session_id}"
@@ -98,3 +106,6 @@ async def make_video(session_id):
 
     cv2.destroyAllWindows()
     video.release()
+
+    with open(os.path.join(f"server/sessions/videos/{video_name}"), "rb") as f:
+        s3.upload_fileobj(f, "carmotion-videos", video_name)

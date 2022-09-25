@@ -97,6 +97,7 @@ class Recommendations:
             urls[url] = 0
             for tag in self.holder[category][0][url]:
                 urls[url] += self.holder[category][1][tag]
+                print(urls[url])
         print("\t\tRe-organizing entities")
         return urls
 

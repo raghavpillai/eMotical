@@ -72,4 +72,4 @@ async def download_session_images(
             f"server/sessions/images",
         )
         for result in executor.map(func, files_to_download):
-            print("\t\t\tFILE VALIDITY [" + result + "]")
+            print("\t\t\tFILE VALIDITY [" + str(result) + "]")

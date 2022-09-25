@@ -16,3 +16,5 @@ class ResponsivePlayer extends React.Component {
     );
   }
 }
+
+export default ResponsivePlayer;

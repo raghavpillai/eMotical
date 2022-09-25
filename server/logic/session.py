@@ -32,11 +32,13 @@ class Session(object):
         @return list: [session_time:float, global_score:int, emotion_array:Dict]
         """
 
-        await self.process_images()
+        videoUrl = await self.process_images()
         self.end_time = int(time.time())
         self.duration = self.end_time - self.start_time
         global_score: int = self.emotion_array.create_global_score()
-        return [self.duration, global_score, self.emotion_array]
+
+
+        return [self.duration, global_score, self.emotion_array.to_arr(), videoUrl[-1]["VideoURL"]]
         
 
     async def process_images(self) -> int:

@@ -54,7 +54,7 @@ async def process_image() -> Any:
     """
     if s_handler.current_session:
         res = await s_handler.end_session()
-        return json.dump(res)
+        return json.dumps(res)
     return False
 
 @router.get("/chat/{msg}/{category}/{detail}")

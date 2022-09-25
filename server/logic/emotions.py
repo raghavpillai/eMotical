@@ -27,6 +27,18 @@ class EmotionPoint(object):
         score = (positive - negative)
         return score
 
+    def to_dict(self):
+        return{
+            "calm": self.calm,
+            "surprised": self.surprised,
+            "fear": self.fear,
+            "sad": self.sad,
+            "angry": self.angry,
+            "happy": self.happy,
+            "confused": self.confused,
+            "disgusted": self.disgusted
+        }
+
     def __init__(self, emotion_dict) -> None:
         """
         Initialization function
@@ -90,6 +102,12 @@ class EmotionArray(object):
         """
         for emotion in emotion_arr:
             self._construct_timestamps(emotion)
+
+    def to_arr(self):
+        arr: List = []
+        for point in self.array:
+            arr.append(point.to_dict())
+        return arr
 
     def __init__(self, emotion_arr: Dict) -> None:
         """

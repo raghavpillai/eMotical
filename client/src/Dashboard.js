@@ -6,6 +6,7 @@ import bob from './bob.jfif';
 import { VictoryChart, VictoryAxis, VictoryBar, VictoryTheme, VictoryPie} from "victory";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import ResponsivePlayer from './Player';
 
 
 function Dashboard () {
@@ -34,7 +35,6 @@ function Dashboard () {
           })
           .then((res) => (res.json()))
           .then((res) => {
-            
             console.log(res)
             setState(res)
           })
@@ -52,9 +52,8 @@ function Dashboard () {
       var happy = []
       var sad = []
       var surprised = []
-      for(let i=0; i < props.data[2]['array'].length-1; i++){
-        happy.push({time: i, confidence: props.data[2]['array'][i].happy})
-
+      for(let i=0; i < props.data[2].length - 1; i++){
+        happy.push({time: i, confidence: props.data[2][i].happy});
       }
 
       const items=[angry, calm, confused, disgusted, fear, happy, sad, surprised]
@@ -82,6 +81,7 @@ function Dashboard () {
       <div>
         {state !==false && 
           <>
+          
           <div className="topbar">
             <div className='logo-container'>
                 <a href="/"><img src={home}></img></a>
@@ -97,7 +97,10 @@ function Dashboard () {
 
           <CircularProgressbar className="status" value={Math.round(state[1])} text={`${Math.round(state[1])}%`} />;
           <p>Customer Satisfaction</p>
+
           </>
+
+          
         }
       </div>
 
