@@ -19,8 +19,8 @@ class EmotionPoint(object):
         """
         Returns a score from -100 to 100 based on emotions
         -100 being most negative, 100 being most positive
-        """
-        positive = (self.calm + self.happy)/2
+        """ 
+        positive = ( (self.calm*0.25) + self.happy * 1.75)/1.5
         negative = (self.fear + self.sad + self.angry + self.confused + self.disgusted)/5
         score = (positive - negative)
         return score
