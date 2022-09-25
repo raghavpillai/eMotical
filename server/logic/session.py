@@ -68,15 +68,10 @@ class Session(object):
         """
         return self.chat_instance.chat_callback(msg)
 
-    def __init__(self, id) -> None:
+    def __init__(self, id: str) -> None:
         """
         Data instantiation
         """
-        print(self.session_id)
-        if self.session_id is not None:
-            print(f"!! Abandoning session {self.session_id} !!")
-            self.session_id = None
-
         self.session_id = id
         self.start_time = time.time()
         print(f"Created new session {id}")
