@@ -8,12 +8,12 @@ import cv2
 async def analyze_final_video(session_id: str) -> Any:
     rekognition = boto3.client("rekognition")
     faceLabels = []
-    cap = cv2.VideoCapture(f"sessions/{session_id}/output_video.avi")
+    cap = cv2.VideoCapture(f"server/sessions/videos/{session_id}.avi")
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     save_interval = 1
 
     frame_count = 0
-    print("Processing video...")
+    print("Processing video attributes...")
     while cap.isOpened():
         ret, frame = cap.read()
         if ret:
