@@ -57,6 +57,12 @@ class EmotionArray(object):
     """
     array: List = []
 
+    def create_global_score(self) -> int:
+        sum = 0
+        for point in self.array:
+            sum += point.return_score()
+        return sum/len(self.array)
+
     def construct_timestamp(self, emotion_arr: Dict) -> None:
         """
         Constructs an emotion point from an emotion dictionary from API
@@ -78,7 +84,8 @@ class EmotionArray(object):
         Constructs an array from an inputted emotion array
         @param emotion_arr: Dict: Emotion array from emotion api
         """
-        self._construct_timestamps(emotion_arr["Emotions"])
+        for emotion in emotion_arr:
+            self._construct_timestamps(emotion)
 
     def __init__(self, emotion_arr: Dict) -> None:
         """

@@ -4,18 +4,13 @@ from typing import List
 from textblob import TextBlob
 import time
 from random import choice
-time.clock = time.time
-from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
 from parrot import Parrot
-import torch
 import warnings
 warnings.filterwarnings("ignore")
 
 parrot = Parrot(model_tag="prithivida/parrot_paraphraser_on_T5", use_gpu=False)
 
 class ChatInstance(object):
-    
     # Quick status to see if we went past description chat
     status: int = 0
 
@@ -37,7 +32,7 @@ class ChatInstance(object):
         @return str: initial chat message
         """
         return "Hello, what do you think about this product?"
-
+    
     def chat_callback(self, msg: str) -> str:
         """
         Function called when a new chat is sent to the server

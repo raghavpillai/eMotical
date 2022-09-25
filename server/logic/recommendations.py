@@ -9,7 +9,7 @@ class Recommendations:
     """
 
     # Video database
-    videos_cars: Dict = {
+    _videos_cars: Dict = {
         "https://www.youtube.com/watch?v=fPYho_m142c": ["bmw", "european", "german", "munich", "luxury", "sedan"],
         "https://www.youtube.com/watch?v=eMpszInH0xw": ["bmw", "european", "german", "munich", "luxury", "suv"],
         "https://www.youtube.com/watch?v=gCMQS3UDabo": ["mercedes", "european", "german", "affalterbach", "luxury", "performance", "suv"], 
@@ -31,19 +31,19 @@ class Recommendations:
         "https://www.youtube.com/watch?v=VPDoBbfL7-E": ["volkswagen", "europen", "german", "economy", "sedan"],
         "https://www.youtube.com/watch?v=C4P6SJ6PCx8": ["volkswagen", "europen", "german", "performance", "hatchback"],
     }
-    videos_fashion: Dict = {}
-    videos_food: Dict = {}
+    _videos_fashion: Dict = {}
+    _videos_food: Dict = {}
 
     # Tag index holder
-    tags_cars: Dict = {}
-    tags_fashion: Dict = {}
-    tags_food: Dict = {}
+    _tags_cars: Dict = {}
+    _tags_fashion: Dict = {}
+    _tags_food: Dict = {}
 
     # Quick enum definition based on category
     holder: Dict = {
-        "cars": [videos_cars, tags_cars],
-        "fashion": [videos_fashion, tags_fashion],
-        "food": [videos_food, tags_food],
+        "cars": [_videos_cars, _tags_cars],
+        "fashion": [_videos_fashion, _tags_fashion],
+        "food": [_videos_food, _tags_food],
     }
 
     # Checks if we have initialized any scored
@@ -57,9 +57,9 @@ class Recommendations:
         @param amount: int: Integer amount associated with how much we want to adjust the weight
         """
         self.updated = True
-        self._adjust_weights(url, category, amount)
         for tag in self.holder[category][0][url]:
             self.holder[category][1][tag] += (amount+randint(-2,2))
+        print("\t\tAdjusting all weights")
 
     def adjust_ind_weight(self, category: str, tag: str, amount: int):
         """
@@ -68,6 +68,7 @@ class Recommendations:
         @param tag: str: actual tag we want to mutate
         @param amount: amount that we want to mutate the tag by
         """
+        print("\t\tAdjusting individual weight")
         self.holder[category][1][tag] += (amount+randint(-2,2))
 
     def check_top_weights(self, category: str) -> Dict:
@@ -80,6 +81,7 @@ class Recommendations:
             urls[url] = 0
             for tag in self.holder[category][0][url]:
                 urls[url] += self.holder[category][1][tag]
+        print("\t\tRe-organizing entities")
         return urls
 
     def generate_recommendations(self, category: str) -> Dict:
@@ -90,9 +92,11 @@ class Recommendations:
         weighted_tags: Dict = self.check_top_weights(category)
         sorted_tags: Dict = dict( sorted(weighted_tags.items(), key=operator.itemgetter(1),reverse=True))
         if self.updated:
+            print("\tServing sorted recommendations")
             return dict(itertools.islice(sorted_tags.items(), 5))
         else:
-            sam = sample(list(self.holder[category][0]), 3)
+            print("\tServing vanilla recommendations")
+            sam = sample(list(self.holder[category][0]), 5)
             return(sam)
 
     def _index_tags(self, video_arr: Dict, tag_arr: Dict) -> None:
@@ -101,6 +105,7 @@ class Recommendations:
         @param video_arr: dict: The video dictionary category
         @param tag_arr: dict: The tag index holder associated with the category
         """
+        print(f"\t\tIndexing category dataset")
         for key in video_arr:
             tags = video_arr[key]
             for tag in tags:
@@ -111,6 +116,8 @@ class Recommendations:
         Initialization function
         Initializes and indexes tags
         """
-        self._index_tags(self.videos_cars, self.tags_cars)
-        self._index_tags(self.videos_fashion, self.tags_fashion)
-        self._index_tags(self.videos_food, self.tags_food)
+        print("\tBeginning data indexing...")
+        self._index_tags(self._videos_cars, self._tags_cars)
+        self._index_tags(self._videos_fashion, self._tags_fashion)
+        self._index_tags(self._videos_food, self._tags_food)
+        print("\tEnded data indexing...")

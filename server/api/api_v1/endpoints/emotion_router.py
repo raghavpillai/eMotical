@@ -2,11 +2,12 @@ from typing import Any
 from fastapi import APIRouter, WebSocket
 from server.logic.session_handler import SessionHandler
 
+print("> Beginning build")
 router = APIRouter()
 s_handler: SessionHandler = SessionHandler()
 
 
-@router.post("/create/{session_id}")
+@router.get("/create/{session_id}")
 async def create_session(*, session_id: str) -> Any:
     """
     Creates a session given a session ID
@@ -15,7 +16,7 @@ async def create_session(*, session_id: str) -> Any:
     return {"message": f"Created new session {session_id}"}
 
 
-@router.put("/update_entity/{category}/{url}/{amount}")
+@router.get("/update_entity/{category}/{url}/{amount}")
 async def update_entity(*, category: str, url: str, amount: str) -> Any:
     """
     Updates all weights for a category and url to a constant amount
@@ -36,29 +37,15 @@ async def get_recs(*, category: str) -> Any:
     return {"success": False}
 
 
-@router.get("/analysis")
+@router.get("/end_session")
 async def process_image() -> Any:
-<<<<<<< HEAD
     """
     Given a prompt to process image, process image and return data
     """
-    session = SessionHandler.current_session
-    res = session.process_image(session.session_id)
-    return res
-
-
-@router.get("/video")
-async def process_video() -> Any:
-    """
-    Given a prompt to process video, process video and return data
-    """
-    session = SessionHandler.current_session
-    res = session.process_video(session.session_id)
-=======
-    session = s_handler.current_session
-    res = await session.process_images(session.session_id)
->>>>>>> 58effa05bcbeda41af6e21efb52139dc614156c4
-    return res
+    if s_handler.current_session:
+        res = await s_handler.end_session()
+        return res
+    return False
 
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

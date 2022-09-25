@@ -37,9 +37,6 @@ async def analyze_final_video(session_id: str) -> Any:
                             {
                                 "Emotions": face["Emotions"],
                                 "Confidence": face["Confidence"],
-                                "Timestamp": ms_to_timestamp(
-                                    cap.get(cv2.CAP_PROP_POS_MSEC)
-                                ),
                             }
                         )
 

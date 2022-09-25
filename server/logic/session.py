@@ -1,5 +1,5 @@
 import time
-from typing import IO
+from typing import List
 from server.utils.image.image import make_video
 
 from server.utils.utils import download_session_images
@@ -19,37 +19,39 @@ class Session(object):
     # Times
     start_time: int = None
     end_time: int = None
+    duration: int = None
 
     # Video URL to hold and store
     video_url: str = None
 
-    # Chat instance local to session
+    # Local session instances
     chat_instance: ChatInstance = None
+    emotion_array: EmotionArray = None
     
-    # def create_analysis(self):
-    #     # Session time
-    #     #
-    #     # Total score (-100 to 100)
-    #     # Positive and negative score breakdowns with confidence levels
-    #     # Individual score breakdowns
-    #     # Graph with data points
-    #     pass
-
-    async def process_images(self, image_id: str) -> int:
+    async def create_analysis(self) -> List:
         """
-        Processes an image
-        @param image_id: str: Image ID to analyze, base64
+        Creates analysis based when session is ended
+        @return list: [session_time:float, global_score:int, emotion_array:Dict]
+        """
+
+        await self.process_images()
+        self.end_time = time.time()
+        self.duration = (self.end_time - self.start_time).total_seconds()
+        global_score: int = self.emotion_array.create_global_score()
+        return [self.duration, global_score, self.emotion_array]
+        
+
+    async def process_images(self) -> int:
+        """
+        Processes an image using session ID
         @return string array from video API
         """
         await download_session_images(self.session_id)
-        await make_video(image_id)
+        await make_video(self.session_id)
         res = await analyze_final_video(self.session_id)
-        # convert to emotion array please <3
-        # point = EmotionPoint(res)
-        # score = point.return_score()
+        self.emotion_array = EmotionArray(res)
         return res
 
-<<<<<<< HEAD
     def start_chat(self) -> str:
         """
         Starts chat session
@@ -66,32 +68,15 @@ class Session(object):
         """
         return self.chat_instance.chat_callback(msg)
 
-    def end_session(self) -> None:
-=======
-    # def process_video(self) -> str:
-    #     """
-    #     Processes video from session id
-    #     @return string array from video API
-    #     """
-    #     download_session_videos(self.session_id)
-
-    #     paths = get_video_paths(self.session_id)
-    #     concatenate(paths, self.session_id)
-
-    #     res = analyze_final_video(self.session_id)
-    #     return res
-
-    def end_session(self):
->>>>>>> 58effa05bcbeda41af6e21efb52139dc614156c4
-        """
-        Ends the session and time
-        """
-        self.end_time = time.time()
-
     def __init__(self, id) -> None:
         """
         Data instantiation
         """
+        print(self.session_id)
+        if self.session_id is not None:
+            print(f"!! Abandoning session {self.session_id} !!")
+            self.session_id = None
+
         self.session_id = id
         self.start_time = time.time()
         print(f"Created new session {id}")

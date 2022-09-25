@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 from fastapi import WebSocket
-=======
-from tkinter import S
->>>>>>> 58effa05bcbeda41af6e21efb52139dc614156c4
+from typing import List
 from .session import Session
 from .recommendations import Recommendations
 
@@ -13,7 +10,6 @@ class SessionHandler:
     """
 
     # Global session objects
-<<<<<<< HEAD
     current_session: Session = None
     recommendations: Recommendations = None
 
@@ -21,16 +17,20 @@ class SessionHandler:
     websocket_obj: WebSocket = None
     
     def create_session(self, session_id: str) -> None:
-=======
-    recommendations: Recommendations = Recommendations()
-
-    def create_session(self, session_id: str) -> Session:
->>>>>>> 58effa05bcbeda41af6e21efb52139dc614156c4
         """
         Creates a new section
         @param session_id: str: unique ID to define session
         """
+        if self.current_session is not None:
+            print(f"!! Abandoning session {self.current_session.session_id}, lasted {self.current_session.duration}s !!")
+            self.current_session = None
         self.current_session = Session(session_id)
+
+    async def end_session(self) -> None:
+        analysis: List = self.current_session.create_analysis()
+        print(f"Ended session {self.current_session.session_id}, duration {self.current_session.duration}s")
+        self.current_session = None
+        return analysis
 
     def update_entity(self, category: str, url: str, amount: int) -> None:
         """
@@ -39,13 +39,7 @@ class SessionHandler:
         @param url: str: url (without youtube link) to use as key
         @param amount: int: Amount to update weights with
         """
-<<<<<<< HEAD
         self.recommendations.adjust_all_weights(category, "https://www.youtube.com/watch?v="+url, amount)
-=======
-        self.recommendations.adjust_weights(
-            category, "https://www.youtube.com/watch?v=" + url, amount
-        )
->>>>>>> 58effa05bcbeda41af6e21efb52139dc614156c4
 
     def get_recs(self, category: str) -> None:
         """
@@ -74,4 +68,5 @@ class SessionHandler:
         """
         Function initalization
         """
+        self.recommendations = Recommendations()
         print("Initialized session handler")
