@@ -13,7 +13,7 @@ async def analyze_final_video(session_id: str) -> Any:
     save_interval = 1
 
     frame_count = 0
-    print("Processing video attributes...")
+    print("\tProcessing video attributes...")
     while cap.isOpened():
         ret, frame = cap.read()
         if ret:

@@ -50,21 +50,13 @@ class Session(object):
         self.emotion_array = EmotionArray(res)
         return res
 
-    def start_chat(self) -> str:
-        """
-        Starts chat session
-        @return str: initial chat to fire back to client
-        """
-        self.chat_instance = ChatInstance()
-        return self.chat_instance.initial_chat()
-    
-    def process_chat(self, msg: str) -> str:
+    def process_chat(self, msg: str, category: str, detail: str) -> str:
         """
         Processes chat into callback given message
         @param msg: str: message to process
         @return str: chat to fire back to client
         """
-        return self.chat_instance.chat_callback(msg)
+        return self.chat_instance.chat_callback(msg, category, detail)
 
     def __init__(self, id: str) -> None:
         """
@@ -72,4 +64,5 @@ class Session(object):
         """
         self.session_id = id
         self.start_time = int(time.time())
+        self.chat_instance = ChatInstance()
         print(f"Created new session {id}")

@@ -15,6 +15,15 @@ async def create_session(*, session_id: str) -> Any:
     s_handler.create_session(session_id)
     return {"message": f"Created new session {session_id}"}
 
+@router.get("/update_ind_entity/{category}/{tag}/{amount}")
+async def update_entity(*, category: str, tag: str, amount: str) -> Any:
+    """
+    Updates individual tag entity
+    """
+    if s_handler:
+        s_handler.update_ind_entity(category, tag, int(amount))
+        return {"success": True}
+    return {"success": False}
 
 @router.get("/update_entity/{category}/{url}/{amount}")
 async def update_entity(*, category: str, url: str, amount: str) -> Any:
@@ -48,7 +57,7 @@ async def process_image() -> Any:
     return False
 
 
-@router.get("/chat/{msg}")
-async def get_recs(*, msg: str) -> Any:
-    msg_to_send = SessionHandler.process_chat_msg(msg)
+@router.get("/chat/{msg}/{category}/{detail}")
+async def prompt_chat_message(*, msg: str, category: str="", detail: str="") -> Any:
+    msg_to_send = SessionHandler.process_chat_msg(msg, category, detail)
     return msg_to_send

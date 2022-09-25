@@ -18,7 +18,7 @@ def ms_to_timestamp(ms) -> str:
 
 
 def base64_to_image(session_id: str, image_id: int, base64_string: str):
-    print(f"Converting {image_id} Base64 to PNG...")
+    print(f"\t\tConverting {image_id} Base64 to PNG...")
     base64_data = base64_string.split(",")[1]
     sbuf = BytesIO()
     sbuf.write(base64.b64decode(base64_data))
@@ -56,7 +56,7 @@ async def download_session_images(
     ):
         objects = result.get("Contents", [])
         files = [obj["Key"] for obj in sorted(objects, key=get_last_modified)]
-        print("Downloading session images... Please wait...")
+        print("\tDownloading session images... Please wait...")
         for file_name in files:
             dest_pathname = os.path.join(local, f"images/{file_name}")
             if not os.path.exists(os.path.dirname(dest_pathname)):
@@ -72,4 +72,4 @@ async def download_session_images(
             f"server/sessions/images",
         )
         for result in executor.map(func, files_to_download):
-            print(result)
+            print("\t\t\tFILE VALIDITY [" + result + "]")

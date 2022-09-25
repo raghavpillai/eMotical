@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 async def get_images(session_id):
-    print("Converting all images from Base64 to PNG...")
+    print("\t\tConverting all images from Base64 to PNG...")
     path = f"server/sessions/images/{session_id}"
     files_content = []
     images = []
@@ -23,7 +23,7 @@ async def get_images(session_id):
 
 
 async def draw_bounding_box(img_path: str):
-    print(f"Drawing bounding box for {img_path}")
+    print(f"\t\tDrawing bounding box for {img_path}")
     rekognition = boto3.client("rekognition")
     cvImg = cv2.imread(img_path)
     _, im_buf_arr = cv2.imencode(".jpg", cvImg)
@@ -65,14 +65,14 @@ async def draw_bounding_box(img_path: str):
 
 
 async def draw_all_boxes(session_id):
-    print("Drawing bounding boxes for all images...")
+    print("\tDrawing bounding boxes for all images...")
     images = await get_images(session_id)
     for image in images:
         await draw_bounding_box(image)
 
 
 async def make_video(session_id):
-    print("Making video from images...")
+    print("\tMaking video from images...")
     await draw_all_boxes(session_id)
     image_folder = f"server/sessions/images/{session_id}"
     video_name = f"{session_id}.avi"

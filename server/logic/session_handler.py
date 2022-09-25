@@ -31,6 +31,15 @@ class SessionHandler:
         self.current_session = None
         return analysis
 
+    def update_ind_entity(self, category: str, tag: str, amount: int) -> None:
+        """
+        Updates weights based on parameters
+        @param category: str: Array category to update
+        @param tag: str: tag to use as key
+        @param amount: int: Amount to update weights with
+        """
+        self.recommendations.adjust_ind_weight(category, tag, amount)
+
     def update_entity(self, category: str, url: str, amount: int) -> None:
         """
         Updates weights based on parameters
@@ -38,7 +47,7 @@ class SessionHandler:
         @param url: str: url (without youtube link) to use as key
         @param amount: int: Amount to update weights with
         """
-        self.recommendations.adjust_all_weights(category, "https://www.youtube.com/watch?v="+url, amount)
+        self.recommendations.adjust_all_weights(category, url, amount)
 
     def get_recs(self, category: str) -> None:
         """
@@ -47,20 +56,13 @@ class SessionHandler:
         """
         return self.recommendations.generate_recommendations(category)
 
-    def prompt_chat_message(self) -> str:
-        """
-        Begin prompt for chat msg
-        @return str: returns initial chat to fire back to client
-        """
-        initial_msg: str = self.current_session.start_chat()
-        return initial_msg
 
-    def process_chat_msg(self, msg:str) -> str:
+    def process_chat_msg(self, msg:str, category, detail) -> str:
         """
         Processes a chat when a chat is fired to the server
         @return str: returns response string to fire back to client
         """
-        new_msg: str = self.current_session.process_chat(msg)
+        new_msg: str = self.current_session.process_chat(msg, category, detail)
         return new_msg
 
     def __init__(self):

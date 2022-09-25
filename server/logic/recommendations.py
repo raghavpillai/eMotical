@@ -84,8 +84,8 @@ class Recommendations:
         @param tag: str: actual tag we want to mutate
         @param amount: amount that we want to mutate the tag by
         """
-        print("\t\tAdjusting individual weight")
         self.holder[category][1][tag] += (amount+randint(-2,2))
+        print(f"\t\tUpdated individual weight for {category} by {amount}")
 
     def check_top_weights(self, category: str) -> Dict:
         """
