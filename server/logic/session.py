@@ -42,8 +42,8 @@ class Session(object):
         @return string array from video API
         """
         await download_session_images(self.session_id)
-        make_video(image_id)
-        res = analyze_final_video(self.session_id)
+        await make_video(image_id)
+        res = await analyze_final_video(self.session_id)
         # convert to emotion array please <3
         # point = EmotionPoint(res)
         # score = point.return_score()
