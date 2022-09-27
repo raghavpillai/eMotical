@@ -10,8 +10,8 @@ import bob from './bob.jfif';
 const AWS = require("aws-sdk")
 
 AWS.config.update({
-  accessKeyId: 'AKIAZEGQS5JFLEEYTFN2',
-  secretAccessKey: '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',
+  accessKeyId: '',
+  secretAccessKey: '',
   region: 'US-EAST-1'
 })
 
