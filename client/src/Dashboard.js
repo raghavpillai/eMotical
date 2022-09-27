@@ -96,7 +96,7 @@ function Dashboard () {
           <Graph data={state}/>
 
           <CircularProgressbar className="status" value={Math.round(state[1])} text={`${Math.round(state[1])}%`} />;
-          <p>Customer Satisfaction</p>
+          <p className='sfdhjak'>Customer Satisfaction</p>
 
           </>
 
